@@ -52,7 +52,7 @@ public class MainRun {
 					System.out.println("Please Choose the command you want to do on a Trainer : ");
 					System.out.println("1-Add Trainer");
 					System.out.println("2-Remove Trainer");
-					System.out.println("3-Update Trainer Data");
+					System.out.println("3-Display all Trainers");
 					System.out.println("4-Back");
 					System.out.println("5-Exit Program");
 					subChoice = scanner.nextInt();
@@ -95,8 +95,8 @@ public class MainRun {
 						break;
 					}
 					case 3: {
-						//Update Trainer Data
-						
+						//Display Trainers Data
+						admin.displayAllTrainers();
 						break;
 					}
 					case 4: {
@@ -120,7 +120,7 @@ public class MainRun {
 					System.out.println("Please Choose the command you want to do on a Trainee : ");
 					System.out.println("1-Add Trainee");
 					System.out.println("2-Remove Trainee");
-					System.out.println("3-Update Trainee Data");
+					System.out.println("3-Display All Trainees");
 					System.out.println("4-Back");
 					System.out.println("5-Exit Program");
 					subChoice = scanner.nextInt();
@@ -170,8 +170,8 @@ public class MainRun {
 						break;
 					}
 					case 3: {
-						//Update Trainee Data
-						
+						//Display All Trainees Data
+						admin.displayAllTrainees();
 						break;
 					}
 					case 4: {

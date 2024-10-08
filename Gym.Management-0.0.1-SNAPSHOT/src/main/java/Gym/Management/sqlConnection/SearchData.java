@@ -20,7 +20,7 @@ public class SearchData {
     static String username = "Amr";
     static String password = "Amr_12saber";
 
-    
+    //Method to search for a Trainee using his/her Email
     public static Trainee searchTrainee(String traineeEmail) 
     {
     	String tname = "";
@@ -100,8 +100,102 @@ public class SearchData {
             return null;
         }
     }
+  //*****************************************************************************************************************//
+    //Method to display all Trainees
+    public static void getAllTraineesAsTable() {
+        String tname = "";
+        int tage = 0;
+        String temail = "";
+        String tphone = "";
+        String tpassword = "";
+        int sID = 0;
+        String sType = "";
+        LocalDate sStartDate = null;
+        LocalDate sEndDate = null;
+        int exID = 0;
+        int exDuration = 0;
+        int tpoints = 0;
+
+        // SQL SELECT query to fetch all trainees
+        String query = "SELECT Person.Name, Person.Age, Person.Email, Person.PhoneNumber, Person.Password,"
+                + " Trainee.SubscriptionId, Trainee.ExercisePlanId, Trainee.Points "
+                + "FROM Person INNER JOIN Trainee ON Person.Id = Trainee.PersonId";
+
+        try {
+            // Establish connection to the database
+            Connection connection = DriverManager.getConnection(url, username, password);
+
+            // Create a statement to execute the query
+            Statement statement = connection.createStatement();
+
+            // Execute the query and store the result
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            // Print table header
+            System.out.printf("%-20s %-5s %-25s %-15s %-15s %-15s %-15s %-10s %-10s\n", 
+                "Name", "Age", "Email", "Phone", "Subscription", "Sub. Start", "Sub. End", "Exercise", "Points");
+            System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------");
+
+            // Iterate over the result set and process each trainee
+            while (resultSet.next()) {
+                tname = resultSet.getString("Name");
+                tage = resultSet.getInt("Age");
+                temail = resultSet.getString("Email");
+                tphone = resultSet.getString("PhoneNumber");
+                tpassword = resultSet.getString("Password");
+                sID = resultSet.getInt("SubscriptionId");
+                exID = resultSet.getInt("ExercisePlanId");
+                tpoints = resultSet.getInt("Points");
+
+                // Fetch subscription details
+                String querySub = "SELECT Subscription.Type, Subscription.StartDate, Subscription.EndDate"
+                        + " FROM Subscription WHERE Subscription.Id = ?";
+                preparedStatement = connection.prepareStatement(querySub);
+                preparedStatement.setInt(1, sID);
+                ResultSet resultSub = preparedStatement.executeQuery();
+                if (resultSub.next()) {
+                    sType = resultSub.getString("Type");
+                    sStartDate = resultSub.getDate("StartDate").toLocalDate();
+                    sEndDate = resultSub.getDate("EndDate").toLocalDate();
+                }
+
+                // Fetch exercise plan details
+                String queryExplan = "SELECT ExercisePlan.Duration FROM ExercisePlan WHERE ExercisePlan.Id = ?";
+                preparedStatement = connection.prepareStatement(queryExplan);
+                preparedStatement.setInt(1, exID);
+                ResultSet resultEx = preparedStatement.executeQuery();
+                if (resultEx.next()) {
+                    exDuration = resultEx.getInt("Duration");
+                }
+
+                // Create the objects for Subscription and ExercisePlan
+                Subscription sub = new Subscription(sType);
+                sub.setStartDate(sStartDate);
+                sub.setEndtDate(sEndDate);
+                ExercisePlan plan = new ExercisePlan(exDuration);
+                Trainee t = new Trainee(tname, tage, temail, tphone, tpassword, sub, plan);
+                t.setPoints(tpoints);
+
+                // Print the details of each trainee in table format
+                System.out.printf("%-20s %-5d %-25s %-15s %-15s %-15s %-15s %-10d %-10d\n",
+                    t.getPersonName(), t.getPersonAge(), t.getPersonEmail(), t.getPersonPhone(), 
+                    t.getSubcription().getSubscriptionType(), t.getSubcription().getStartDate(),
+                    t.getSubcription().getEndtDate(), t.getPlan().getExerciseDuration(), t.getPoints());
+            }
+
+            // Close the connection and other resources
+            resultSet.close();
+            statement.close();
+            connection.close();
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
     
     //*****************************************************************************************************************//
+  //Method to search for a Trainer using his/her Email
     public static Trainer searchTrainer(String trainerEmail) 
     {
     	String tname = "";
@@ -150,7 +244,68 @@ public class SearchData {
             return null;
         }
     }
+  //*****************************************************************************************************************//
+    //Method to display all Trainers
+    public static void getAllTrainersAsTable() {
+        String tname = "";
+        int tage = 0;
+        double tsalary = 0.0;
+        String temail = "";
+        String tphone = "";
+//        String tpassword = "";
+        int tWH = 0;
+        int tAssignedHall = 0;
+
+        // SQL SELECT query to fetch all trainers
+        String query = "SELECT Person.Name, Person.Age, Person.Email, Person.PhoneNumber, Person.Password,"
+                + " Trainer.Salary, Trainer.WorkingHours, Trainer.GymHallId FROM Person "
+                + "INNER JOIN Trainer ON Person.Id = Trainer.PersonId";
+
+        try {
+            // Establish connection to the database
+            Connection connection = DriverManager.getConnection(url, username, password);
+
+            // Create a statement to execute the query
+            Statement statement = connection.createStatement();
+
+            // Execute the query and store the result
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            // Print table header
+            System.out.printf("%-20s %-5s %-25s %-15s %-10s %-15s %-15s\n",
+                    "Name", "Age", "Email", "Phone", "Salary", "Working Hours", "Gym Hall ID");
+            System.out.println("-------------------------------------------------------------------------------");
+
+            // Iterate over the result set and process each trainer
+            while (resultSet.next()) {
+                tname = resultSet.getString("Name");
+                tage = resultSet.getInt("Age");
+                temail = resultSet.getString("Email");
+                tphone = resultSet.getString("PhoneNumber");
+//                tpassword = resultSet.getString("Password");
+                tsalary = resultSet.getDouble("Salary");
+                tWH = resultSet.getInt("WorkingHours");
+                tAssignedHall = resultSet.getInt("GymHallId");
+
+                // Print the details of each trainer in table format
+                System.out.printf("%-20s %-5d %-25s %-15s %-10.2f %-15d %-15d\n",
+                    tname, tage, temail, tphone, tsalary, tWH, tAssignedHall);
+            }
+
+            // Close the connection and other resources
+            resultSet.close();
+            statement.close();
+            connection.close();
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    
     //*****************************************************************************************************************//
+    //Method used to check if Admin exists or not
     public static boolean checkAdmin(String adminEmail) 
     {
     	String query = "SELECT 1 FROM Person p JOIN Admin a ON p.Id = a.PersonId WHERE p.email = ?";
@@ -179,6 +334,7 @@ public class SearchData {
         }
     }
     //*****************************************************************************************************************//
+    //Method to check the password of the admin
     public static boolean checkAdminPass(String adminEmail, String adminPass) 
     {
     	String query = "SELECT Password FROM Person INNER JOIN Admin ON Person.Id = Admin.PersonId WHERE Person.email = ?";
@@ -214,7 +370,7 @@ public class SearchData {
     }
     //*****************************************************************************************************************//
 
-    
+    //Main Method to check the running of the above methods
 	public static void main(String[] args) {
 		
 		

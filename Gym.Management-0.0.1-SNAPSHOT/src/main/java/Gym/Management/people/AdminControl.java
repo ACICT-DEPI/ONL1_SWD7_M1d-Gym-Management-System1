@@ -27,10 +27,12 @@ public interface AdminControl {
 	
 	void addTrainer(Trainer trainer);
 	void removeTrainer(int trainerID);
+	void displayAllTrainers();
 	void assigneTrainer(Trainer trainer, GymHall hall);
 	
 	void addTrainee(Trainee trainee);
 	void removeTrainee(int traineeID);
+	void displayAllTrainees();
 	void changeTraineePlan(Trainee trainee, ExercisePlan plan);
 	
 }

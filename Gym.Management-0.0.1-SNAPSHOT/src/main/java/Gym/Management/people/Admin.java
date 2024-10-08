@@ -6,6 +6,7 @@ import Gym.Management.facility.GymHall;
 import Gym.Management.mainRun.Logs;
 import Gym.Management.papers.ExercisePlan;
 import Gym.Management.sqlConnection.SQLConnection;
+import Gym.Management.sqlConnection.SearchData;
 
 public class Admin extends Person implements AdminControl{
 
@@ -73,6 +74,11 @@ public class Admin extends Person implements AdminControl{
 	}
 
 	@Override
+	public void displayAllTrainers() {
+		SearchData.getAllTrainersAsTable();
+	}
+	
+	@Override
 	public void assigneTrainer(Trainer trainer, GymHall hall) {
 		// TODO Auto-generated method stub
 		
@@ -93,6 +99,11 @@ public class Admin extends Person implements AdminControl{
 	}
 
 	@Override
+	public void displayAllTrainees() {
+		SearchData.getAllTraineesAsTable();
+	}
+	
+	@Override
 	public void changeTraineePlan(Trainee trainee, ExercisePlan plan) {
 		// TODO Auto-generated method stub
 		
@@ -106,5 +117,7 @@ public class Admin extends Person implements AdminControl{
 									return t.getSubcription().getPrice();
 									}
 						});
+
+	
 	
 }
