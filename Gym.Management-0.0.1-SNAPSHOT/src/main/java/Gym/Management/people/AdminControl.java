@@ -1,5 +1,7 @@
 package Gym.Management.people;
 
+import java.util.List;
+
 //import java.util.ArrayList;
 //import java.util.Arrays;
 //import java.util.List;
@@ -32,7 +34,7 @@ public interface AdminControl {
 	
 	void addTrainee(Trainee trainee);
 	void removeTrainee(int traineeID);
-	void displayAllTrainees();
+	List<Trainee> displayAllTrainees();
 	void changeTraineePlan(Trainee trainee, ExercisePlan plan);
 	
 }

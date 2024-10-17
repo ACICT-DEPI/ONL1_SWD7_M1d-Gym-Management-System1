@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import Gym.Management.papers.ExercisePlan;
 import Gym.Management.papers.Subscription;
@@ -102,7 +104,9 @@ public class SearchData {
     }
   //*****************************************************************************************************************//
     //Method to display all Trainees
-    public static void getAllTraineesAsTable() {
+    public static List<Trainee> getAllTraineesAsTable() {
+    	
+    	List<Trainee> trainees = new ArrayList<>();
         String tname = "";
         int tage = 0;
         String temail = "";
@@ -177,6 +181,7 @@ public class SearchData {
                 Trainee t = new Trainee(tname, tage, temail, tphone, tpassword, sub, plan);
                 t.setPoints(tpoints);
 
+                trainees.add(t);
                 // Print the details of each trainee in table format
                 System.out.printf("%-20s %-5d %-25s %-15s %-15s %-15s %-15s %-10d %-10d\n",
                     t.getPersonName(), t.getPersonAge(), t.getPersonEmail(), t.getPersonPhone(), 
@@ -192,6 +197,7 @@ public class SearchData {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+        return trainees;
     }
     
     //*****************************************************************************************************************//

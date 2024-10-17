@@ -1,6 +1,8 @@
 package Gym.Management.people;
 
 
+import java.util.List;
+
 import Gym.Management.facility.Equipment;
 import Gym.Management.facility.GymHall;
 import Gym.Management.mainRun.Logs;
@@ -99,8 +101,8 @@ public class Admin extends Person implements AdminControl{
 	}
 
 	@Override
-	public void displayAllTrainees() {
-		SearchData.getAllTraineesAsTable();
+	public List<Trainee> displayAllTrainees() {
+		return SearchData.getAllTraineesAsTable();
 	}
 	
 	@Override

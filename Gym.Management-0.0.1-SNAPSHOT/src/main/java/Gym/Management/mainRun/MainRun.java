@@ -1,6 +1,8 @@
 package Gym.Management.mainRun;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Scanner;
 
 import Gym.Management.facility.Equipment;
@@ -25,18 +27,15 @@ public class MainRun {
 		int choice = 0;
 		int subChoice = 0;
 
-		//GymHall hall1 = new GymHall("Main Hall");
 
 		System.out.println("Please Enter your Email : ");
 		email = scanner.nextLine();
 		System.out.println("Please Enter your Password : ");
 		pass = scanner.nextLine();
-		//		System.out.println(SearchData.checkAdmin(email));
-		//		System.out.println(SearchData.checkAdminPass(email, pass));
 		if(SearchData.checkAdmin(email) && SearchData.checkAdminPass(email, pass)) 
 		{
 			Admin admin = new Admin("Amr", 25, email, "01563248975", pass);
-			while(choice != 6 && subChoice != 5) {
+			while(choice < 7 && subChoice < 5) {
 				System.out.println("Hello Admin : " + admin.getPersonName());
 				System.out.println("Please Choose the data you want to deal with : ");
 				System.out.println("1-Trainer");
@@ -44,7 +43,8 @@ public class MainRun {
 				System.out.println("3-Gym Hall");
 				System.out.println("4-Gym Equipment");
 				System.out.println("5-Attendance");
-				System.out.println("6-Exit Program");
+				System.out.println("6-Send Email Notification");
+				System.out.println("7-Exit Program");
 				choice = scanner.nextInt();
 				scanner.nextLine();
 				switch (choice) {
@@ -156,8 +156,8 @@ public class MainRun {
 
 						SQLConnection.insertExercisePlan(exPlan);
 						SQLConnection.insertSubscription(sub);
-						//SQLConnection.insertTrainee(trainee101);
 						admin.addTrainee(trainee101);
+						SendGridEmailSender.sendEmail(tEmail, "Welcome " + tName + " to GYM.", "Practise well to be ready for the future");
 						break;
 					}
 					case 2: {
@@ -397,6 +397,18 @@ public class MainRun {
 					break;
 				}
 				case 6: {
+					//Send Email Notifications
+					List<Trainee> trainees = admin.displayAllTrainees();
+					for(Trainee t : trainees) {
+						Long remainingDays = ChronoUnit.DAYS.between(t.getSubcription().getEndtDate(), LocalDate.now());
+						if(remainingDays >= 3) {
+							SendGridEmailSender.sendEmail(t.getPersonEmail(), "Subscription is about to expire", "Hello Mr/Ms. " 
+							+ t.getPersonName() + " that is a message to inform you that your Subscription remaining days = " + remainingDays);
+						}
+					}
+					break;
+				}
+				case 7:{
 					//Exit Program
 					
 					break;
