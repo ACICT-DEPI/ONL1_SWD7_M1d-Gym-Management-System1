@@ -2,7 +2,7 @@ package Gym.Management.people;
 
 public abstract class Person {
 
-	private static int id = 0;
+	public static int id = 0;
 	private int personID = 0;
 	private String personName = "";
 	private int personAge = 0;

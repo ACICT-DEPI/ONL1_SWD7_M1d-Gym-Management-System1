@@ -16,6 +16,11 @@ public class Admin extends Person implements AdminControl{
 		super(personName, personAge, personEmail, personPhone, personPassword);
 	}
 
+	public Admin(String personName, int personAge, String personEmail, String personPhone, String personPassword, SQLConnection mockSQLConnection) {
+		super(personName, personAge, personEmail, personPhone, personPassword);
+	}
+
+
 	@Override
 	public void addHall(GymHall hall) {
 		if(hall == null) {
