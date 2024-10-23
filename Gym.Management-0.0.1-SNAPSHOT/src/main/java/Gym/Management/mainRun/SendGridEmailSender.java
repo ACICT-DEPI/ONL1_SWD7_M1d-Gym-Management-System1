@@ -46,11 +46,6 @@ public class SendGridEmailSender {
             ex.printStackTrace();
         }
     }
-
-    public static void main(String[] args) {
-        // Example usage:
-//        sendEmail("amr.saber.fathy@gmail.com", "Subscription Test", "Hello! This is a test message using SendGrid.");
-    }
     
     
     public static String[] getConfig() {
@@ -75,6 +70,12 @@ public class SendGridEmailSender {
         }
     	
     	return new String[] {apiKey, senderEmail};
+    }
+    
+    
+    public static void main(String[] args) {
+        // Example usage:
+//        sendEmail("amr.saber.fathy@gmail.com", "Subscription Test", "Hello! This is a test message using SendGrid.");
     }
 	
 }

@@ -1,7 +1,6 @@
 package Gym.Management.mainRun;
 
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Scanner;
 
@@ -400,11 +399,7 @@ public class MainRun {
 					//Send Email Notifications
 					List<Trainee> trainees = admin.displayAllTrainees();
 					for(Trainee t : trainees) {
-						Long remainingDays = ChronoUnit.DAYS.between(t.getSubcription().getEndtDate(), LocalDate.now());
-						if(remainingDays >= 3) {
-							SendGridEmailSender.sendEmail(t.getPersonEmail(), "Subscription is about to expire", "Hello Mr/Ms. " 
-							+ t.getPersonName() + " that is a message to inform you that your Subscription remaining days = " + remainingDays);
-						}
+						admin.sendEmailNotification(t);
 					}
 					break;
 				}

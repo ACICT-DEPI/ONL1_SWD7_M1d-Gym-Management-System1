@@ -37,4 +37,6 @@ public interface AdminControl {
 	List<Trainee> displayAllTrainees();
 	void changeTraineePlan(Trainee trainee, ExercisePlan plan);
 	
+	boolean sendEmailNotification(Trainee t);
+	
 }

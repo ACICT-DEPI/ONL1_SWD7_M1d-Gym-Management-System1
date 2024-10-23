@@ -1,11 +1,14 @@
 package Gym.Management.people;
 
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import Gym.Management.facility.Equipment;
 import Gym.Management.facility.GymHall;
 import Gym.Management.mainRun.Logs;
+import Gym.Management.mainRun.SendGridEmailSender;
 import Gym.Management.papers.ExercisePlan;
 import Gym.Management.sqlConnection.SQLConnection;
 import Gym.Management.sqlConnection.SearchData;
@@ -115,6 +118,19 @@ public class Admin extends Person implements AdminControl{
 		// TODO Auto-generated method stub
 		
 	}
+	
+	@Override
+	public boolean sendEmailNotification(Trainee t) {
+		Long remainingDays = ChronoUnit.DAYS.between(LocalDate.now(), t.getSubcription().getEndtDate());
+		System.out.println(remainingDays);
+		if(remainingDays <= 3) {
+			SendGridEmailSender.sendEmail(t.getPersonEmail(), "Subscription is about to expire", "Hello Mr/Ms. " 
+			+ t.getPersonName() + " that is a message to inform you that your Subscription remaining days = " + remainingDays);
+			
+			return true;
+		}
+		return false;
+	}
 
 	//////////////////Additional Methods//////////////////////////
 	Utils checkdiscount = (t -> {if(t.getPoints() >= 100) {
@@ -124,7 +140,6 @@ public class Admin extends Person implements AdminControl{
 									return t.getSubcription().getPrice();
 									}
 						});
-
 	
 	
 }
